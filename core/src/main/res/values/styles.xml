@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CmsProductListNameText" parent="@style/ProximaFontRegular.Size14">
+        <item name="android:textColor">@color/cmsProductListNameTextColour</item>
+    </style>
+
+    <style name="ProximaFontRegular.Size14" parent="@style/ProximaFontRegular">
+        <item name="android:textSize">@dimen/text_14</item>
+    </style>
+
+    <style name="ProximaFontRegular">
+        <item name="android:textColor">@color/black</item>
+        <!--<item name="android:textAppearance">@font/Mark Simonson - Proxima Nova Regular</item>-->
+    </style>
+
+    <style name="CmsProductListColourText" parent="@style/ProximaFontRegular.Size14">
+        <item name="android:textColor">@color/cmsProductListColourTextColour</item>
+    </style>
+
+    <style name="CmsProductListPriceText" parent="@style/ProximaFontRegular.Size14">
+        <item name="android:textColor">@color/cmsProductListPriceTextColour</item>
+    </style>
+
+</resources>

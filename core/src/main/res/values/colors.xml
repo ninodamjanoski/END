@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#ff000000</color>
+    <color name="blackish">#ff1a1a1a</color>
+    <color name="blackishTransparent">#1a1a1a1a</color>
+    <color name="grey">#ff999999</color>
+    <color name="lightgrey">#ffd1d1d1</color>
+    <color name="white">#ffffffff</color>
+    <color name="placeholder_grey">#fffafafa</color>
+
+    <color name="cmsProductListNameTextColour">@color/blackish</color>
+    <color name="cmsProductListColourTextColour">@color/grey</color>
+    <color name="cmsProductListPriceTextColour">@color/blackish</color>
+
+</resources>

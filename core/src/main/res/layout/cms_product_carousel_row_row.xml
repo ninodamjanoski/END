@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="0.0dip"
+        app:cardElevation="0.0dip">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <com.endumedia.core.ui.CmsProductAdaptiveSquareImageView
+                android:id="@+id/product_image"
+                android:layout_width="@dimen/cms_product_carousel_row_width"
+                android:layout_height="@dimen/cms_product_carousel_row_width"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/cms_product_carousel_texts_row_height"
+                android:layout_marginTop="@dimen/screen_padding"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/product_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                    android:id="@+id/product_name"
+                    style="@style/CmsProductListNameText"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/blackish"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="2"/>
+
+            <TextView
+                    android:id="@+id/product_colour"
+                    style="@style/CmsProductListColourText"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:maxLines="1"/>
+
+            <TextView
+                    android:id="@+id/product_price"
+                    style="@style/CmsProductListPriceText"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"/>
+        </LinearLayout>
+
+        <View
+                android:id="@+id/product_image_button"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/clickable_ripple_white"
+                android:clickable="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

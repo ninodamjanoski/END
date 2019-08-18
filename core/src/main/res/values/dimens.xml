@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cms_product_carousel_row_width">340dip</dimen>
+    <dimen name="cms_product_carousel_texts_row_height">87.0dip</dimen>
+    <dimen name="screen_padding">16.0dip</dimen>
+
+
+    <dimen name="text_10">10.0sp</dimen>
+    <dimen name="text_11">11.0sp</dimen>
+    <dimen name="text_12">12.0sp</dimen>
+    <dimen name="text_13">13.0sp</dimen>
+    <dimen name="text_14">14.0sp</dimen>
+    <dimen name="text_16">16.0sp</dimen>
+    <dimen name="text_18">18.0sp</dimen>
+    <dimen name="text_20">20.0sp</dimen>
+    <dimen name="text_28">28.0sp</dimen>
+    <dimen name="text_30">30.0sp</dimen>
+    <dimen name="text_32">32.0sp</dimen>
+    <dimen name="text_40">40.0sp</dimen>
+</resources>
