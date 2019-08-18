@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
 
     private val list by lazy { findViewById<RecyclerView>(R.id.list) }
 
-
     private val model: ProductListingViewModel by viewModels {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {

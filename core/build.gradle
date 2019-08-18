@@ -54,6 +54,7 @@ dependencies {
     implementation deps.glide.runtime
     implementation deps.dagger.runtime
     implementation deps.dagger.android
+    testImplementation 'junit:junit:4.12'
 }
 
 
