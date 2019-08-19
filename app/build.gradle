@@ -70,6 +70,8 @@ dependencies {
     androidTestImplementation deps.atsl.runner
     androidTestImplementation deps.atsl.rules
     androidTestImplementation deps.arch_core.testing
+    androidTestImplementation deps.espresso.core
+    androidTestImplementation deps.espresso.contrib
 
     androidTestImplementation deps.junit
     androidTestImplementation deps.retrofit.mock

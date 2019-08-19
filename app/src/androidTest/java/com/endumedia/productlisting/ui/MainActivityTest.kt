@@ -32,12 +32,10 @@ class MainActivityTest {
 
     private val productFactory = ProductFactory()
 
+    private val fakeApi = FakeProductsApi()
+
     @Before
     fun init() {
-        val fakeApi = FakeProductsApi()
-        fakeApi.addProduct(productFactory.createProduct())
-        fakeApi.addProduct(productFactory.createProduct())
-        fakeApi.addProduct(productFactory.createProduct())
         val app = ApplicationProvider.getApplicationContext<Application>()
         // use a controlled service locator w/ fake API
         ServiceLocator.swap(
@@ -46,21 +44,57 @@ class MainActivityTest {
                 override fun getRedditApi(): ProductsApi = fakeApi
             }
         )
+//        EspressoTestUtil.disableProgressBarAnimations(activityRule)
     }
 
+    /**
+     * Show items loaded on the screen
+     */
     @Test
     @Throws(InterruptedException::class, TimeoutException::class)
     fun showSomeResults() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(),
-            MainActivity::class.java)
+        fakeApi.addProduct(productFactory.createProduct())
+        fakeApi.addProduct(productFactory.createProduct())
+        fakeApi.addProduct(productFactory.createProduct())
 
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        val activity = InstrumentationRegistry.getInstrumentation().startActivitySync(intent)
-        val recyclerView = activity.findViewById<RecyclerView>(R.id.list)
-        MatcherAssert.assertThat(recyclerView.adapter, CoreMatchers.notNullValue())
-        waitForAdapterChange(recyclerView)
+        val recyclerView = startActivity()
         MatcherAssert.assertThat(recyclerView.adapter?.itemCount, CoreMatchers.`is`(3))
     }
+
+    /**
+     * Initial load with empty db failed, show retry button
+     */
+    @Test
+    fun initialLoadFailedShowRetry() {
+        fakeApi.failureMsg = "xxx"
+        val recyclerView = startActivity()
+        MatcherAssert.assertThat(recyclerView.adapter?.itemCount, CoreMatchers.`is`(1))
+        MatcherAssert.assertThat(recyclerView.adapter?.getItemViewType(0), CoreMatchers.`is`(R.layout.network_state_item))
+    }
+
+//    /**
+//     * Initial load with empty db failed, show retry button
+//     */
+//    @Test
+//    fun initialLoadFailedRetryWithSuccess() {
+//        fakeApi.failureMsg = "xxx"
+//        val recyclerView = startActivity()
+//        MatcherAssert.assertThat(recyclerView.adapter?.itemCount, CoreMatchers.`is`(1))
+//        MatcherAssert.assertThat(recyclerView.adapter?.getItemViewType(0), CoreMatchers.`is`(R.layout.network_state_item))
+//
+//        fakeApi.failureMsg = null
+//        fakeApi.addProduct(productFactory.createProduct())
+//        fakeApi.addProduct(productFactory.createProduct())
+//        fakeApi.addProduct(productFactory.createProduct())
+//
+//        onView(withId(R.id.list)).perform(
+//            RecyclerViewActions.actionOnItemAtPosition<ProductViewHolder>
+//                (0, MyViewAction.clickChildViewWithId(R.id.retry_button))
+//        )
+//
+//        waitForAdapterChange(recyclerView)
+//        MatcherAssert.assertThat(recyclerView.adapter?.itemCount, CoreMatchers.`is`(3))
+//    }
 
     private fun waitForAdapterChange(recyclerView: RecyclerView) {
         val latch = CountDownLatch(1)
@@ -72,7 +106,7 @@ class MainActivityTest {
                     }
 
                     override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                        latch.countDown()
+//                        latch.countDown()
                     }
                 })
         }
@@ -81,5 +115,20 @@ class MainActivityTest {
             return
         }
         MatcherAssert.assertThat(latch.await(10, TimeUnit.SECONDS), CoreMatchers.`is`(true))
+    }
+
+    @Throws(InterruptedException::class, TimeoutException::class)
+    private fun startActivity(): RecyclerView {
+        val intent = Intent(
+            ApplicationProvider.getApplicationContext(),
+            MainActivity::class.java
+        )
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        val activity = InstrumentationRegistry.getInstrumentation().startActivitySync(intent)
+        val recyclerView = activity.findViewById<RecyclerView>(R.id.list)
+        MatcherAssert.assertThat(recyclerView.adapter, CoreMatchers.notNullValue())
+        waitForAdapterChange(recyclerView)
+        return recyclerView
     }
 }
