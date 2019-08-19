@@ -11,7 +11,7 @@ import com.endumedia.core.repository.ProductsRepository
 import com.endumedia.core.vo.Catalog
 import com.endumedia.core.vo.Product
 import com.endumedia.productlisting.api.ProductsApi
-import com.endumedia.productlisting.db.ProductsDb
+import com.endumedia.productlisting.db.ProductsDao
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,15 +21,13 @@ import java.util.concurrent.Executor
 /**
  * Created by Nino on 18.08.19
  */
-class ProductsRepositoryImpl(val db: ProductsDb,
-                             private val redditApi: ProductsApi,
+class ProductsRepositoryImpl(val dao: ProductsDao,
+                             private val productsApi: ProductsApi,
                              private val ioExecutor: Executor) : ProductsRepository {
 
     private fun insertResponseIntoDb(catalog: Catalog?) {
         catalog?.products?.let {
-            db.runInTransaction {
-                db.products().insertProducts(it)
-            }
+            dao.insertProducts(it)
         }
     }
 
@@ -44,7 +42,7 @@ class ProductsRepositoryImpl(val db: ProductsDb,
     private fun refreshProducts(): LiveData<NetworkState> {
         val networkState = MutableLiveData<NetworkState>()
         networkState.value = NetworkState.LOADING
-        redditApi.getProducts().enqueue(
+        productsApi.getProducts().enqueue(
             object : Callback<Catalog> {
                 override fun onFailure(call: Call<Catalog>, t: Throwable) {
                     // retrofit calls this on main thread so safe to call set value
@@ -56,10 +54,8 @@ class ProductsRepositoryImpl(val db: ProductsDb,
                     response: Response<Catalog>
                 ) {
                     ioExecutor.execute {
-                        db.runInTransaction {
-                            db.products().deleteProducts()
+                            dao.deleteProducts()
                             insertResponseIntoDb(response.body())
-                        }
                         // since we are in bg thread now, post the result.
                         networkState.postValue(NetworkState.LOADED)
                     }
@@ -69,11 +65,11 @@ class ProductsRepositoryImpl(val db: ProductsDb,
         return networkState
     }
 
-    override fun lisProducts(pageSize: Int): Listing<Product> {
+    override fun listProducts(pageSize: Int): Listing<Product> {
         // create a boundary callback which will observe when the user reaches to the edges of
         // the list and update the database with extra data.
         val boundaryCallback = ProductsBoundaryCallback(
-            webservice = redditApi,
+            webservice = productsApi,
             handleResponse = this::insertResponseIntoDb,
             ioExecutor = ioExecutor)
         // we are using a mutable live data to trigger refresh requests which eventually calls
@@ -85,7 +81,7 @@ class ProductsRepositoryImpl(val db: ProductsDb,
         }
 
         // We use toLiveData Kotlin extension function here, you could also use LivePagedListBuilder
-        val livePagedList = db.products().getProducts().toLiveData(
+        val livePagedList = dao.getProducts().toLiveData(
             pageSize = pageSize,
             boundaryCallback = boundaryCallback)
 

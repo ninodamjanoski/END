@@ -1,10 +1,7 @@
 package com.endumedia.productlisting.db
 
 import androidx.paging.DataSource
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.endumedia.core.vo.Product
 
 
@@ -14,6 +11,7 @@ import com.endumedia.core.vo.Product
 @Dao
 interface ProductsDao {
 
+    @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertProducts(posts : List<Product>)
 

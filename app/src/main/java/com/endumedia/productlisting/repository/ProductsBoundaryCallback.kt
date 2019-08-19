@@ -36,9 +36,9 @@ class ProductsBoundaryCallback(private val webservice: ProductsApi,
         }
     }
 
-
     /**
      * User reached to the end of the list.
+     * TODO to be implemented when theres paging supported by the backend service
      */
     @MainThread
     override fun onItemAtEndLoaded(itemAtEnd: Product) {

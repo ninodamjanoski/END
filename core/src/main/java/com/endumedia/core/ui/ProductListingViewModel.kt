@@ -13,7 +13,7 @@ class ProductListingViewModel(repository: ProductsRepository) : ViewModel() {
 
     private val pageSize = MutableLiveData<Int>()
     val catalogResult = Transformations.map(pageSize) {
-        repository.lisProducts(it)
+        repository.listProducts(it)
     }
 
     val products = Transformations.switchMap(catalogResult) { it.pagedList }!!

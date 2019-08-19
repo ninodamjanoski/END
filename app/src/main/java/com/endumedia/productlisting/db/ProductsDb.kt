@@ -22,7 +22,7 @@ abstract class ProductsDb : RoomDatabase() {
             val databaseBuilder = if(useInMemory) {
                 Room.inMemoryDatabaseBuilder(context, ProductsDb::class.java)
             } else {
-                Room.databaseBuilder(context, ProductsDb::class.java, "getProducts.db")
+                Room.databaseBuilder(context, ProductsDb::class.java, "products.db")
             }
             return databaseBuilder
                 .fallbackToDestructiveMigration()

@@ -32,6 +32,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
+
     sourceSets {
         androidTest.java.srcDirs += "src/test-common/java"
         test.java.srcDirs += "src/test-common/java"
