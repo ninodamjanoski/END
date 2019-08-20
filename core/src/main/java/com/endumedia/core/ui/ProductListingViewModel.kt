@@ -4,12 +4,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.endumedia.core.repository.ProductsRepository
+import javax.inject.Inject
 
 
 /**
  * Created by Nino on 18.08.19
  */
-class ProductListingViewModel(repository: ProductsRepository) : ViewModel() {
+class ProductListingViewModel @Inject constructor(repository: ProductsRepository) : ViewModel() {
 
     private val pageSize = MutableLiveData<Int>()
     val catalogResult = Transformations.map(pageSize) {

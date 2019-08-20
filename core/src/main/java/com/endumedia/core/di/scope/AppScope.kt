@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.endumedia.core.dagger.scope
+package com.endumedia.core.di.scope
 
 import javax.inject.Scope
 import kotlin.annotation.AnnotationRetention.RUNTIME

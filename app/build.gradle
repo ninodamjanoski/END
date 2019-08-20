@@ -49,6 +49,8 @@ dependencies {
 
     kapt deps.room.compiler
     kapt deps.glide.compiler
+    kapt deps.dagger.android_support_compiler
+    kapt deps.dagger.compiler
 
     implementation deps.constraint_layout
     implementation deps.support.app_compat
@@ -64,6 +66,8 @@ dependencies {
     implementation deps.retrofit.gson
     implementation deps.okhttp_logging_interceptor
     implementation deps.glide.runtime
+    implementation deps.dagger.runtime
+    implementation deps.dagger.android
 
     // Android Testing Support Library's runner and rules
     androidTestImplementation deps.atsl.core
@@ -82,4 +86,5 @@ dependencies {
     testImplementation deps.retrofit.mock
     testImplementation deps.arch_core.testing
     testImplementation deps.mockito.core
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
 }

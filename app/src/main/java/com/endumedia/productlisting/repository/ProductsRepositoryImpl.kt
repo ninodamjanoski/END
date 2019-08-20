@@ -16,12 +16,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.concurrent.Executor
+import javax.inject.Inject
 
 
 /**
  * Created by Nino on 18.08.19
  */
-class ProductsRepositoryImpl(val dao: ProductsDao,
+class ProductsRepositoryImpl @Inject constructor(val dao: ProductsDao,
                              private val productsApi: ProductsApi,
                              private val ioExecutor: Executor) : ProductsRepository {
 

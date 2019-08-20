@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,21 +18,29 @@ import com.endumedia.core.vo.Product
 import com.endumedia.productlisting.R
 import com.endumedia.productlisting.ServiceLocator
 import kotlinx.android.synthetic.main.activity_main.*
-
+import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity() {
 
     private val list by lazy { findViewById<RecyclerView>(R.id.list) }
 
-    private val model: ProductListingViewModel by viewModels {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                @Suppress("UNCHECKED_CAST")
-                return ProductListingViewModel(ServiceLocator.instance(baseContext).getRepository()) as T
-            }
-        }
-    }
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val model: ProductListingViewModel by lazy {
+        ViewModelProviders.of(this, viewModelFactory)
+            .get(ProductListingViewModel::class.java) }
+
+//    private val model: ProductListingViewModel by viewModels {
+//        object : ViewModelProvider.Factory {
+//            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+//                @Suppress("UNCHECKED_CAST")
+//                return ProductListingViewModel(ServiceLocator.instance(baseContext).getRepository()) as T
+//            }
+//        }
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

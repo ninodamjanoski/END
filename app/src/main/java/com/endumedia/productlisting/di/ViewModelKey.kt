@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 The Android Open Source Project
+ * Copyright (C) 2018 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-package com.endumedia.core.repository
+package com.endumedia.productlisting.di
 
-import com.endumedia.core.vo.Product
+import androidx.lifecycle.ViewModel
+import dagger.MapKey
+import kotlin.reflect.KClass
 
-/**
- * Common interface shared by the different repository implementations.
- * Note: this only exists for sample purposes - typically an app would implement a repo once, either
- * network+db, or network-only
- */
-interface RedditPostRepository {
-
-    fun lisProducts(pageSize: Int): Listing<Product>
-}
+@MustBeDocumented
+@Target(
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER
+)
+@Retention(AnnotationRetention.RUNTIME)
+@MapKey
+annotation class ViewModelKey(val value: KClass<out ViewModel>)

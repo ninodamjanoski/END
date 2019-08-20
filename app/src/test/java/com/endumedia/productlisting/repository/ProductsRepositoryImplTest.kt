@@ -52,9 +52,9 @@ class ProductsRepositoryImplTest {
 
     @Before
     fun init() {
-        Mockito.`when`(db.products()).thenReturn(dao)
+        Mockito.`when`(db.productsDao()).thenReturn(dao)
         Mockito.doReturn(getProductsDataSourceFromDb()).`when`(dao).getProducts()
-        repository = ProductsRepositoryImpl(db.products(), fakeApi, networkExecutor)
+        repository = ProductsRepositoryImpl(db.productsDao(), fakeApi, networkExecutor)
     }
 
     @After

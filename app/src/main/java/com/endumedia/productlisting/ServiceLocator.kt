@@ -85,7 +85,7 @@ open class DefaultServiceLocator(val app: Application, val useInMemoryDb: Boolea
 
     override fun getRepository(): ProductsRepository {
         return ProductsRepositoryImpl(
-                    dao = db.products(),
+                    dao = db.productsDao(),
                     productsApi = getRedditApi(),
                     ioExecutor = getDiskIOExecutor())
     }

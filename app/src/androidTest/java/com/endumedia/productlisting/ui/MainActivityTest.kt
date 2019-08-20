@@ -1,23 +1,30 @@
 package com.endumedia.productlisting.ui
 
+import android.app.Activity
 import android.app.Application
 import android.content.Intent
 import androidx.arch.core.executor.testing.CountingTaskExecutorRule
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
+import com.endumedia.core.ui.ProductListingViewModel
 import com.endumedia.productlisting.DefaultServiceLocator
 import com.endumedia.productlisting.R
 import com.endumedia.productlisting.ServiceLocator
 import com.endumedia.productlisting.api.ProductsApi
+import com.endumedia.productlisting.db.ProductsDb
 import com.endumedia.productlisting.repository.FakeProductsApi
 import com.endumedia.productlisting.repository.ProductFactory
+import com.endumedia.productlisting.repository.ProductsRepositoryImpl
+import com.endumedia.productlisting.utils.ViewModelUtil
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
@@ -27,6 +34,7 @@ import java.util.concurrent.TimeoutException
 class MainActivityTest {
 
 
+    private lateinit var activity: Activity
     @get:Rule
     var testRule = CountingTaskExecutorRule()
 
@@ -37,6 +45,21 @@ class MainActivityTest {
     @Before
     fun init() {
         val app = ApplicationProvider.getApplicationContext<Application>()
+        val db = Room.inMemoryDatabaseBuilder(app, ProductsDb::class.java)
+            .allowMainThreadQueries()
+            .build()
+        val repository = ProductsRepositoryImpl(db.productsDao(),
+            fakeApi, Executors.newFixedThreadPool(2))
+        val model = ProductListingViewModel(repository)
+
+        val intent = Intent(ApplicationProvider.getApplicationContext(),
+            MainActivity::class.java)
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        activity = InstrumentationRegistry.getInstrumentation().startActivitySync(intent)
+
+        (activity as MainActivity).viewModelFactory = ViewModelUtil.createFor(model)
+
         // use a controlled service locator w/ fake API
         ServiceLocator.swap(
             object : DefaultServiceLocator(app = app,
@@ -119,13 +142,6 @@ class MainActivityTest {
 
     @Throws(InterruptedException::class, TimeoutException::class)
     private fun startActivity(): RecyclerView {
-        val intent = Intent(
-            ApplicationProvider.getApplicationContext(),
-            MainActivity::class.java
-        )
-
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        val activity = InstrumentationRegistry.getInstrumentation().startActivitySync(intent)
         val recyclerView = activity.findViewById<RecyclerView>(R.id.list)
         MatcherAssert.assertThat(recyclerView.adapter, CoreMatchers.notNullValue())
         waitForAdapterChange(recyclerView)
