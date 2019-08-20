@@ -22,7 +22,9 @@ object AppInjector {
         productsApp
             .registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
                 override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-                    handleActivity(activity)
+                    if (activity is Injectable) {
+                        AndroidInjection.inject(activity)
+                    }
                 }
 
                 override fun onActivityStarted(activity: Activity) {
@@ -50,27 +52,4 @@ object AppInjector {
                 }
             })
     }
-
-    private fun handleActivity(activity: Activity) {
-//        if (activity is HasSupportFragmentInjector) {
-            AndroidInjection.inject(activity)
-//        }
-        if (activity is FragmentActivity) {
-            activity.supportFragmentManager
-                .registerFragmentLifecycleCallbacks(
-                    object : FragmentManager.FragmentLifecycleCallbacks() {
-                        override fun onFragmentCreated(
-                            fm: FragmentManager,
-                            f: Fragment,
-                            savedInstanceState: Bundle?
-                        ) {
-                            if (f is Injectable) {
-//                                AndroidSupportInjection.inject(f)
-                            }
-                        }
-                    }, true
-                )
-        }
-    }
-
 }

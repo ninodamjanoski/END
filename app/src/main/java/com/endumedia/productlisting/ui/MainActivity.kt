@@ -11,6 +11,7 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.endumedia.core.GlideApp
+import com.endumedia.core.di.Injectable
 import com.endumedia.core.repository.NetworkState
 import com.endumedia.core.ui.ProductListingViewModel
 import com.endumedia.core.ui.ProductsAdapter
@@ -21,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Injectable {
 
     private val list by lazy { findViewById<RecyclerView>(R.id.list) }
 
