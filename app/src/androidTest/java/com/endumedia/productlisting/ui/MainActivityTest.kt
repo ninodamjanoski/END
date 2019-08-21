@@ -109,6 +109,17 @@ class MainActivityTest {
     }
 
     /**
+     * Initial load with empty db failed, show retry button
+     */
+    @Test
+    fun initialLoadFailedShowRetry() {
+        fakeApi.failureMsg = "xxx"
+        val recyclerView = startActivity()
+        MatcherAssert.assertThat(recyclerView.adapter?.itemCount, CoreMatchers.`is`(1))
+        MatcherAssert.assertThat(recyclerView.adapter?.getItemViewType(0), CoreMatchers.`is`(R.layout.network_state_item))
+    }
+
+    /**
      * Initial load with empty db failed, press retry button and load 3 items
      */
     @Test
@@ -136,16 +147,6 @@ class MainActivityTest {
         MatcherAssert.assertThat(recyclerView.adapter?.itemCount, CoreMatchers.`is`(3))
     }
 
-    /**
-     * Initial load with empty db failed, show retry button
-     */
-    @Test
-    fun initialLoadFailedShowRetry() {
-        fakeApi.failureMsg = "xxx"
-        val recyclerView = startActivity()
-        MatcherAssert.assertThat(recyclerView.adapter?.itemCount, CoreMatchers.`is`(1))
-        MatcherAssert.assertThat(recyclerView.adapter?.getItemViewType(0), CoreMatchers.`is`(R.layout.network_state_item))
-    }
     private fun addProductsToApi() {
         fakeApi.addProduct(productFactory.createProduct())
         fakeApi.addProduct(productFactory.createProduct())

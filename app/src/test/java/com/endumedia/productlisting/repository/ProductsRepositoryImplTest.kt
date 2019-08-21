@@ -143,11 +143,11 @@ class ProductsRepositoryImplTest {
     /**
      * asserts refresh clears old data and loads the new data in db
      */
-    @Test()
+    @Test
     fun refreshWithNonEmptyDb() {
         val postsV1 = (0..5).map { productFactory.createProduct() }
         postsV1.forEach(fakeApi::addProduct)
-        var listing = repository.listProducts(pageSize = 5)
+        val listing = repository.listProducts(pageSize = 5)
         val list = getPagedList(listing)
         list.loadAround(5)
         productFactory.products.clear()
