@@ -35,7 +35,7 @@ class ProductsRepositoryImplTest {
     val db = Mockito.mock(ProductsDb::class.java)
     private val dao = Mockito.mock(ProductsDao::class.java)
 
-    private var isDbEmpty: Boolean = false
+    private var isDbEmpty: Boolean = false // to fake empty db
     private lateinit var repository: ProductsRepository
 
     private val fakeApi = FakeProductsApi()
@@ -54,6 +54,10 @@ class ProductsRepositoryImplTest {
     fun init() {
         Mockito.`when`(db.productsDao()).thenReturn(dao)
         Mockito.doReturn(getProductsDataSourceFromDb()).`when`(dao).getProducts()
+        Mockito.`when`(dao.deleteProducts()).then {
+            productFactory.products.clear()
+        }
+
         repository = ProductsRepositoryImpl(db.productsDao(), fakeApi, networkExecutor)
     }
 
@@ -69,7 +73,7 @@ class ProductsRepositoryImplTest {
     fun emptyList() {
         val listing = repository.listProducts(10)
         val pagedList = getPagedList(listing)
-        MatcherAssert.assertThat(pagedList.size, CoreMatchers.`is`(0))
+        assertThat(pagedList.size, CoreMatchers.`is`(0))
     }
 
     /**
@@ -136,41 +140,17 @@ class ProductsRepositoryImplTest {
         inOrder.verifyNoMoreInteractions()
     }
 
-
     /**
-     * asserts the retry logic when initial load succeeds but subsequent loads fails
+     * asserts refresh clears old data and loads the new data in db
      */
-    @Test
-    fun retryAfterInitialFails() {
-        fakeApi.addProduct(productFactory.createProduct())
-        val listing = repository.listProducts(pageSize = 2)
-        val list = getPagedList(listing)
-        assertThat(
-            "test sanity, we should not load everything",
-            list.size == productFactory.products.size, CoreMatchers.`is`(true)
-        )
-        assertThat(getNetworkState(listing), CoreMatchers.`is`(NetworkState.LOADED))
-        fakeApi.failureMsg = "fail"
-        list.loadAllData()
-        assertThat(getNetworkState(listing), CoreMatchers.`is`(NetworkState.error("fail")))
-        fakeApi.failureMsg = null
-        listing.retry()
-        list.loadAllData()
-        assertThat(getNetworkState(listing), CoreMatchers.`is`(NetworkState.LOADED))
-        assertThat(list, CoreMatchers.`is`(productFactory.products))
-    }
-
-
-    /**
-     * asserts refresh loads the new data
-     */
-    @Test
-    fun refresh() {
+    @Test()
+    fun refreshWithNonEmptyDb() {
         val postsV1 = (0..5).map { productFactory.createProduct() }
         postsV1.forEach(fakeApi::addProduct)
-        val listing = repository.listProducts(pageSize = 5)
+        var listing = repository.listProducts(pageSize = 5)
         val list = getPagedList(listing)
         list.loadAround(5)
+        productFactory.products.clear()
         val postsV2 = (0..10).map { productFactory.createProduct() }
         fakeApi.clear()
         postsV2.forEach(fakeApi::addProduct)
@@ -180,13 +160,8 @@ class ProductsRepositoryImplTest {
         listing.refreshState.observeForever(refreshObserver)
         listing.refresh()
 
-//        val list2 = getPagedList(listing)
-//        list2.loadAround(5)
-//        assertThat(list2, CoreMatchers.`is`(postsV2))
-        val inOrder = Mockito.inOrder(refreshObserver)
-        inOrder.verify(refreshObserver).onChanged(NetworkState.LOADED) // initial state
-        inOrder.verify(refreshObserver).onChanged(NetworkState.LOADING)
-        inOrder.verify(refreshObserver).onChanged(NetworkState.LOADED)
+
+        Mockito.verify(refreshObserver).onChanged(NetworkState.LOADED)
     }
 
     /**
