@@ -26,14 +26,10 @@ public class HintSpinner<T> {
         this.spinner.setAdapter(this.adapter);
         this.spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long j) {
-                String a = HintSpinner.TAG;
-                StringBuilder stringBuilder = new StringBuilder("position selected: ");
-                stringBuilder.append(i);
-                Log.d(a, stringBuilder.toString());
-                if (HintSpinner.this.callback == null) {
-                } else if (!HintSpinner.this.isHintPosition(i)) {
-                    HintSpinner.this.callback.onItemSelected(i, (T) HintSpinner.this.spinner.getItemAtPosition(i));
-                    return;
+                if (HintSpinner.this.callback != null &&
+                        !HintSpinner.this.isHintPosition(i)) {
+                    HintSpinner.this.callback.onItemSelected(i,
+                            (T) HintSpinner.this.spinner.getItemAtPosition(i));
                 }
             }
 

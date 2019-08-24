@@ -125,10 +125,10 @@ public class HintAdapter<T> extends ArrayAdapter<T> {
     }
 
     public View getView(int i, View view, ViewGroup viewGroup) {
-        if (i == getHintPosition()) {
+//        if (i == getHintPosition()) {
             return getDefaultView(viewGroup);
-        }
-        return getCustomView(i, view, viewGroup);
+//        }
+//        return getCustomView(i, view, viewGroup);
     }
 
     private View getDefaultView(ViewGroup viewGroup) {

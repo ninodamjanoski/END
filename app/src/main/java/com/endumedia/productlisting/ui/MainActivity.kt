@@ -16,6 +16,7 @@ import com.endumedia.core.ui.ProductListingViewModel
 import com.endumedia.core.ui.ProductsAdapter
 import com.endumedia.core.ui.widgets.HintAdapter
 import com.endumedia.core.ui.widgets.HintSpinner
+import com.endumedia.core.ui.widgets.ViewMode
 import com.endumedia.core.vo.Product
 import com.endumedia.productlisting.R
 import kotlinx.android.synthetic.main.activity_main.*
@@ -97,21 +98,27 @@ class MainActivity : AppCompatActivity(), Injectable {
     }
 
     private fun initSortSpinner(spinner: Spinner, i: Int, i2: Int) {
-        val stringArray = getResources().getStringArray(i2)
-        val hintAdapter = HintAdapter(
-            this, R.layout.product_list_view_row, i, stringArray.asList(), false)
-        HintSpinner(spinner, hintAdapter, null).init()
+        val stringArray = resources.getStringArray(i2)
+        val hintAdapter = HintAdapter(this, R.layout.product_list_view_row, i, stringArray.asList(), false)
+        HintSpinner(spinner, hintAdapter, object : HintSpinner.Callback<String> {
+            override fun onItemSelected(i: Int, t: String?) {
+                hintAdapter.setSelectedTopPosition(i)
+            }
+        }).init()
     }
 
     private fun initViewSpinner(spinner: Spinner, i: Int, i2: Int) {
-        val stringArray = getResources().getStringArray(i2)
+        val stringArray = resources.getStringArray(i2)
         Intrinsics.checkExpressionValueIsNotNull(stringArray, "array")
         val hintAdapter = HintAdapter(this, R.layout.product_list_view_row, i, stringArray.asList(), true)
         HintSpinner(spinner, hintAdapter, object : HintSpinner.Callback<String> {
             override fun onItemSelected(i: Int, t: String?) {
-
+                when (ViewMode.values()[i]) {
+                    ViewMode.VIEW_MODE_PRODUCT, ViewMode.VIEW_MODE_OUTFIT -> hintAdapter.setSelectedTopPosition(i)
+                    ViewMode.VIEW_MODE_ONE_PRODUCT_PER_ROW,
+                    ViewMode.VIEW_MODE_TWO_PRODUCTS_PER_ROW -> hintAdapter.setSelectedBottomPosition(i)
+                }
             }
-
         }).init()
     }
 
