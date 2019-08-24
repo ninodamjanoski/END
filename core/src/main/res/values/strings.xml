@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">Core</string>
     <string name="retry">Retry</string>
+    <string name="no_items_found">No items found</string>
+    <string name="products_count_zero">No items</string>
+    <string name="product_listing_filter">Filter</string>
+
+    <string name="latest">Latest</string>
+    <string name="price_high">Price (High)</string>
+    <string name="price_low">Price (Low)</string>
+    <string name="product">Product</string>
+    <string name="outfit">Outfit</string>
+    <string name="large">Large</string>
+    <string name="small">Small</string>
+
+    <string name="product_listing_sort">Sort</string>
+    <string name="product_listing_view">View</string>
 </resources>

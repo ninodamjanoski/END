@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View android:background="@drawable/navbar_shadow" android:layout_width="match_parent"
+        android:layout_height="@dimen/screen_padding_quarter"
+  xmlns:android="http://schemas.android.com/apk/res/android" />

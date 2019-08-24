@@ -1,6 +1,7 @@
 package com.endumedia.productlisting.ui
 
 import android.os.Bundle
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,15 +14,20 @@ import com.endumedia.core.di.Injectable
 import com.endumedia.core.repository.NetworkState
 import com.endumedia.core.ui.ProductListingViewModel
 import com.endumedia.core.ui.ProductsAdapter
+import com.endumedia.core.ui.widgets.HintAdapter
+import com.endumedia.core.ui.widgets.HintSpinner
 import com.endumedia.core.vo.Product
 import com.endumedia.productlisting.R
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
+import kotlin.jvm.internal.Intrinsics
 
 
 class MainActivity : AppCompatActivity(), Injectable {
 
     private val list by lazy { findViewById<RecyclerView>(R.id.list) }
+    private val spSort by lazy { findViewById<Spinner>(R.id.spinner_sort) }
+    private val spView by lazy { findViewById<Spinner>(R.id.spinner_view) }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -32,9 +38,10 @@ class MainActivity : AppCompatActivity(), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.product_list_activity)
         initList()
         initAdapter()
+        initSpinners()
         initSwipeToRefresh()
         model.showCatalog()
     }
@@ -83,4 +90,30 @@ class MainActivity : AppCompatActivity(), Injectable {
             model.refresh()
         }
     }
+
+    private fun initSpinners() {
+        initSortSpinner(spSort, R.string.product_listing_sort, R.array.sort_spinner_values)
+        initViewSpinner(spView, R.string.product_listing_view, R.array.view_spinner_values)
+    }
+
+    private fun initSortSpinner(spinner: Spinner, i: Int, i2: Int) {
+        val stringArray = getResources().getStringArray(i2)
+        val hintAdapter = HintAdapter(
+            this, R.layout.product_list_view_row, i, stringArray.asList(), false)
+        HintSpinner(spinner, hintAdapter, null).init()
+    }
+
+    private fun initViewSpinner(spinner: Spinner, i: Int, i2: Int) {
+        val stringArray = getResources().getStringArray(i2)
+        Intrinsics.checkExpressionValueIsNotNull(stringArray, "array")
+        val hintAdapter = HintAdapter(this, R.layout.product_list_view_row, i, stringArray.asList(), true)
+        HintSpinner(spinner, hintAdapter, object : HintSpinner.Callback<String> {
+            override fun onItemSelected(i: Int, t: String?) {
+
+            }
+
+        }).init()
+    }
+
+
 }

@@ -17,4 +17,8 @@
     <dimen name="text_30">30.0sp</dimen>
     <dimen name="text_32">32.0sp</dimen>
     <dimen name="text_40">40.0sp</dimen>
+    <dimen name="tool_bar_height">56dp</dimen>
+    <dimen name="screen_padding_and_half">24dp</dimen>
+    <dimen name="screen_padding_quarter">4dp</dimen>
+    <dimen name="screen_padding_half">8dp</dimen>
 </resources>

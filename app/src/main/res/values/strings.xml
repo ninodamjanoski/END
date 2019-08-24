@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">ProductListing</string>
+    <string name="titleBasket">Basket</string>
+    <string name="titleWishlist">Wishlist</string>
+    <string name="titleHome">Home</string>
+    <string name="titleAccount">Account</string>
+    <string name="titleSearch">Search</string>
+    <string name="search">Search</string>
+    <string name="clear">Clear</string>
 </resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sort_spinner_values">
+        <item>@string/latest</item>
+        <item>@string/price_high</item>
+        <item>@string/price_low</item>
+    </string-array>
+    <string-array name="view_spinner_values">
+        <item>@string/product</item>
+        <item>@string/outfit</item>
+        <item>@string/large</item>
+        <item>@string/small</item>
+    </string-array>
+</resources>

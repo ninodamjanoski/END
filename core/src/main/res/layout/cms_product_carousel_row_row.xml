@@ -20,7 +20,7 @@
                 app:layout_constraintStart_toStartOf="parent"/>
 
         <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/cms_product_carousel_texts_row_height"
                 android:layout_marginTop="@dimen/screen_padding"
                 android:orientation="vertical"
@@ -31,7 +31,7 @@
             <TextView
                     android:id="@+id/product_name"
                     style="@style/CmsProductListNameText"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/blackish"
                     android:ellipsize="end"
@@ -41,7 +41,7 @@
             <TextView
                     android:id="@+id/product_colour"
                     style="@style/CmsProductListColourText"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:gravity="center"
@@ -51,15 +51,15 @@
             <TextView
                     android:id="@+id/product_price"
                     style="@style/CmsProductListPriceText"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"/>
         </LinearLayout>
 
         <View
                 android:id="@+id/product_image_button"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@drawable/clickable_ripple_white"
                 android:clickable="true"
                 app:layout_constraintTop_toTopOf="parent"
