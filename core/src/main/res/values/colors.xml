@@ -5,9 +5,9 @@
     <color name="blackishTransparent">#1a1a1a1a</color>
     <color name="grey">#ff999999</color>
     <color name="lightgrey">#ffd1d1d1</color>
+    <color name="lightergrey">#ffcccccc</color>
     <color name="white">#ffffffff</color>
     <color name="placeholder_grey">#fffafafa</color>
-    <color name="lightergrey">#ffcccccc</color>
     <color name="shadow_grey">#11333333</color>
     <color name="lightestgrey">#fff2f2f2</color>
     <color name="orange">#fff63333</color>

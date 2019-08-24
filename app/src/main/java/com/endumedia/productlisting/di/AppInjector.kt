@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentManager
 import com.endumedia.core.di.Injectable
 import com.endumedia.productlisting.ProductsApp
 import dagger.android.AndroidInjection
+import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.HasSupportFragmentInjector
 
 
 /**
@@ -22,9 +24,7 @@ object AppInjector {
         productsApp
             .registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
                 override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-                    if (activity is Injectable) {
-                        AndroidInjection.inject(activity)
-                    }
+                    handleActivity(activity)
                 }
 
                 override fun onActivityStarted(activity: Activity) {
@@ -51,5 +51,28 @@ object AppInjector {
 
                 }
             })
+    }
+
+
+    private fun handleActivity(activity: Activity) {
+        if (activity is HasSupportFragmentInjector) {
+            AndroidInjection.inject(activity)
+        }
+        if (activity is FragmentActivity) {
+            activity.supportFragmentManager
+                .registerFragmentLifecycleCallbacks(
+                    object : FragmentManager.FragmentLifecycleCallbacks() {
+                        override fun onFragmentCreated(
+                            fm: FragmentManager,
+                            f: Fragment,
+                            savedInstanceState: Bundle?
+                        ) {
+                            if (f is Injectable) {
+                                AndroidSupportInjection.inject(f)
+                            }
+                        }
+                    }, true
+                )
+        }
     }
 }

@@ -68,14 +68,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-            <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@+id/bottomNav">
-
-                <include layout="@layout/navbar_shadow" />
-            </FrameLayout>
-
             <ProgressBar
                     android:id="@+id/progressBar"
                     style="?android:progressBarStyle"
@@ -88,7 +80,7 @@
             <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/bottomNav">
+                    android:layout_marginBottom="@dimen/bottom_navigation_height">
 
                 <FrameLayout
                         android:layout_width="match_parent"
@@ -191,19 +183,6 @@
                     </androidx.coordinatorlayout.widget.CoordinatorLayout>
                 </FrameLayout>
             </RelativeLayout>
-
-
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                    android:id="@+id/bottomNav"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/bottom_navigation_height"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="bottom"
-                    android:background="@color/white"
-                    app:itemIconTint="@drawable/bottom_nav_item_selector"
-                    app:itemTextColor="@color/blackish"
-                    app:labelVisibilityMode="unlabeled"
-                    app:menu="@menu/menu_bottom_nav" />
         </RelativeLayout>
     </LinearLayout>
 

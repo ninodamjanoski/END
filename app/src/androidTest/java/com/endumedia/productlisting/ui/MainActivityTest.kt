@@ -6,6 +6,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.arch.core.executor.testing.CountingTaskExecutorRule
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
@@ -194,14 +197,30 @@ class MainActivityTest {
         app.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
 
             override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
-                val db = Room.inMemoryDatabaseBuilder(app, ProductsDb::class.java)
-                    .allowMainThreadQueries()
-                    .build()
+                if (activity is FragmentActivity) {
+                    activity.supportFragmentManager
+                        .registerFragmentLifecycleCallbacks(
+                            object : FragmentManager.FragmentLifecycleCallbacks() {
+                                override fun onFragmentCreated(
+                                    fm: FragmentManager,
+                                    f: Fragment,
+                                    savedInstanceState: Bundle?
+                                ) {
+                                    if (f is MainFragment) {
+                                        val db = Room.inMemoryDatabaseBuilder(app, ProductsDb::class.java)
+                                            .allowMainThreadQueries()
+                                            .build()
 
-                val repository = ProductsRepositoryImpl(db.productsDao(),
-                    fakeApi, Executors.newFixedThreadPool(5))
-                val model = ProductListingViewModel(repository)
-                (activity as MainActivity).viewModelFactory = ViewModelUtil.createFor(model)
+                                        val repository = ProductsRepositoryImpl(db.productsDao(),
+                                            fakeApi, Executors.newFixedThreadPool(5))
+                                        val model = ProductListingViewModel(repository)
+                                        f.viewModelFactory = ViewModelUtil.createFor(model)
+                                    }
+                                }
+                            }, true
+                        )
+                }
+
             }
 
             override fun onActivityPaused(activity: Activity?) {
