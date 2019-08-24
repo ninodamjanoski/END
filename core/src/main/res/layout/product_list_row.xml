@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@id/card_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="0.0dip"
+        app:cardElevation="0.0dip">
+
+        <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/screen_padding_half"
+                    android:paddingBottom="@dimen/screen_padding">
+
+                <com.endumedia.core.ui.widgets.SquareImageView
+                        android:id="@id/product_image"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/screen_padding" />
+
+                <TextView
+                        android:id="@id/product_name"
+                        style="@style/ProductListNameText"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="2" />
+
+                <TextView
+                        android:id="@id/product_price"
+                        style="@style/ProductListPriceText"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center" />
+            </LinearLayout>
+
+            <View
+                    android:id="@id/product_image_button"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@drawable/clickable_ripple_white"
+                    android:clickable="true" />
+        </FrameLayout>
+    </androidx.cardview.widget.CardView>

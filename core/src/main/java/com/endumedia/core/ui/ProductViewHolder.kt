@@ -47,7 +47,7 @@ class ProductViewHolder(view: View, private val glide: GlideRequests)
     companion object {
         fun create(parent: ViewGroup, glide: GlideRequests): ProductViewHolder {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.cms_product_carousel_row_row, parent, false)
+                .inflate(R.layout.product_list_row, parent, false)
             return ProductViewHolder(view, glide)
         }
     }

@@ -67,4 +67,16 @@
     <style name="AppTheme.Base" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionModeOverlay">true</item>
     </style>
+    <style name="ProductListPriceText" parent="@style/ProximaFontRegular.Size14.Tracker25">
+        <item name="android:textColor">@color/productListPriceTextColour</item>
+    </style>
+    <style name="ProximaFontRegular.Size14.Tracker25" parent="@style/ProximaFontRegular.Size14">
+        <item name="android:letterSpacing" tools:targetApi="lollipop">0.025</item>
+    </style>
+    <style name="ProductListColourText" parent="@style/ProximaFontRegular.Size14.Tracker25">
+        <item name="android:textColor">@color/productListColourTextColour</item>
+    </style>
+    <style name="ProductListNameText" parent="@style/ProximaFontRegular.Size14.Tracker25">
+        <item name="android:textColor">@color/productListNameTextColour</item>
+    </style>
 </resources>

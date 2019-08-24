@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity(), Injectable {
             override fun getSpanSize(position: Int): Int {
                 when (list.adapter?.getItemViewType(position)) {
                     R.layout.network_state_item -> return 2
-                    R.layout.cms_product_carousel_row_row -> return 1
+                    R.layout.product_list_row -> return 1
                     else -> return -1
                 }
             }

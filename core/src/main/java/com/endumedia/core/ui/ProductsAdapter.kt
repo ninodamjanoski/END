@@ -20,7 +20,7 @@ private val retryCallback: () -> Unit)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            R.layout.cms_product_carousel_row_row -> ProductViewHolder.create(parent, glide)
+            R.layout.product_list_row -> ProductViewHolder.create(parent, glide)
             R.layout.network_state_item -> NetworkStateItemViewHolder.create(parent, retryCallback)
             else -> throw IllegalArgumentException("unknown view type $viewType")
         }
@@ -28,7 +28,7 @@ private val retryCallback: () -> Unit)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
-            R.layout.cms_product_carousel_row_row -> (holder as ProductViewHolder).bind(getItem(position))
+            R.layout.product_list_row -> (holder as ProductViewHolder).bind(getItem(position))
             R.layout.network_state_item -> (holder as NetworkStateItemViewHolder).bindTo(
                 networkState)
         }
@@ -52,7 +52,7 @@ private val retryCallback: () -> Unit)
         return if (hasExtraRow() && position == itemCount - 1) {
             R.layout.network_state_item
         } else {
-            R.layout.cms_product_carousel_row_row
+            R.layout.product_list_row
         }
     }
 

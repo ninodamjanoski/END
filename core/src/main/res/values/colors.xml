@@ -10,6 +10,7 @@
     <color name="lightergrey">#ffcccccc</color>
     <color name="shadow_grey">#11333333</color>
     <color name="lightestgrey">#fff2f2f2</color>
+    <color name="orange">#fff63333</color>
 
     <color name="cmsProductListNameTextColour">@color/blackish</color>
     <color name="cmsProductListColourTextColour">@color/grey</color>
@@ -18,5 +19,9 @@
     <color name="scrollbarsColour">@color/lightergrey</color>
     <color name="categoryListTitleTextColour">@color/blackish</color>
     <color name="searchClearButtonColour">@color/blackish</color>
+    <color name="productListPriceTextColour">@color/blackish</color>
+    <color name="productListColourTextColour">@color/grey</color>
+    <color name="productListNameTextColour">@color/blackish</color>
+    <color name="windowBackground">@color/white</color>
 
 </resources>
